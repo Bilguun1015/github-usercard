@@ -2,10 +2,12 @@
            (replacing the palceholder with your Github name):
            https://api.github.com/users/<your name>
 */
+const followersArray = ['bilguun1015','tetondan','dustinmyers','luishrd','bigknell'];
 
-axios.get(`https://api.github.com/users/bilguun1015`)
+followersArray.forEach((person,i) =>{
+  i = 0;
+  axios.get(`https://api.github.com/users/${person}`)
   .then(data=>{
-    console.log('it is my github', data)
     const cards = document.querySelector('.cards')
     const element = createGithubCard(data)
     cards.appendChild(element)
@@ -13,6 +15,8 @@ axios.get(`https://api.github.com/users/bilguun1015`)
   .catch(error =>{
     console.log('not getting anything', error)
   })
+})
+
 /* Step 2: Inspect and study the data coming back, this is YOUR 
    github info! You will need to understand the structure of this 
    data in order to use it to build your component function 
@@ -34,7 +38,7 @@ axios.get(`https://api.github.com/users/bilguun1015`)
           user, and adding that card to the DOM.
 */
 
-const followersArray = [];
+
 
 /* Step 3: Create a function that accepts a single object as its only argument,
           Using DOM methods and properties, create a component that will return the following DOM element:
@@ -79,7 +83,7 @@ function createGithubCard(data){
   cardUserGithubName.textContent = data.data.login
   cardUserLocation.textContent = `Location: ${data.data.location}`
   cardUserProfile.textContent = 'Profile: '
-  profileLink.textContent = data.data.html_url
+  profileLink.href = data.data.html_url
   cardUserFollowers.textContent = `Followers: ${data.data.followers}`
   cardUserFollowing.textContent = `Following: ${data.data.following}`
   cardUserBio.textContent = `Bio: ${data.data.bio}`
