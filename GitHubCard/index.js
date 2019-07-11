@@ -2,9 +2,16 @@
            (replacing the palceholder with your Github name):
            https://api.github.com/users/<your name>
 */
+
 axios.get(`https://api.github.com/users/bilguun1015`)
   .then(data=>{
     console.log('it is my github', data)
+    const cards = document.querySelector('.cards')
+    const element = createGithubCard(data)
+    cards.appendChild(element)
+  })
+  .catch(error =>{
+    console.log('not getting anything', error)
   })
 /* Step 2: Inspect and study the data coming back, this is YOUR 
    github info! You will need to understand the structure of this 
@@ -49,6 +56,7 @@ const followersArray = [];
 
 */
 function createGithubCard(data){
+  
   const card = document.createElement('div');
   const cardUserImg = document.createElement('img');
   const cardInfo = document.createElement('div');
@@ -66,17 +74,29 @@ function createGithubCard(data){
   cardUserName.classList.add('name')
   cardUserGithubName.classList.add('username')
 
+  cardUserImg.src = data.data.avatar_url
+  cardUserName.textContent = data.data.name
+  cardUserGithubName.textContent = data.data.login
+  cardUserLocation.textContent = `Location: ${data.data.location}`
+  cardUserProfile.textContent = 'Profile: '
+  profileLink.textContent = data.data.html_url
+  cardUserFollowers.textContent = `Followers: ${data.data.followers}`
+  cardUserFollowing.textContent = `Following: ${data.data.following}`
+  cardUserBio.textContent = `Bio: ${data.data.bio}`
+
   card.appendChild(cardUserImg)
   card.appendChild(cardInfo)
 
-  cardInfo.appendChild(CardUserName)
+  cardInfo.appendChild(cardUserName)
   cardInfo.appendChild(cardUserGithubName)
   cardInfo.appendChild(cardUserLocation)
   cardInfo.appendChild(cardUserProfile)
-  cardInfo.appendChild(profileLink)
+  cardUserProfile.appendChild(profileLink)
   cardInfo.appendChild(cardUserFollowers)
   cardInfo.appendChild(cardUserFollowing)
   cardInfo.appendChild(cardUserBio)
+
+  return card;
 
   
 }
